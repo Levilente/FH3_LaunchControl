@@ -4,7 +4,7 @@ A 2-step launch control for **Forza Horizon 3** (the Xbox One build on PC, throu
 **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)**. Buy it in the garage, set the launch RPM in the tuning menu, then
 launch with the handbrake and the throttle held.
 
-> Version **1.0.0**. Needs the FH3 Mod Platform **1.0.0** or newer.
+> Version **1.0.1**. Needs the FH3 Mod Platform **1.2.0** or newer.
 
 ## What it does
 
@@ -22,7 +22,7 @@ launch with the handbrake and the throttle held.
 | What | Version |
 |---|---|
 | Forza Horizon 3 on PC with the **Azimuth** launcher | Xbox One build 1.0.125.0 (the one the platform targets) |
-| **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)** | **1.0.0 or newer** |
+| **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)** | **1.2.0 or newer** |
 | Input | Right trigger + handbrake (**A** or **B** on a controller, **Space** on a keyboard; **W** / **Up** count as full throttle). No wheel support. |
 
 ## Install
@@ -48,6 +48,9 @@ Needs CMake and a MinGW-w64 (llvm-mingw) toolchain. Put the FH3 Mod Platform che
 
     cmake -S . -B build -G Ninja -DCMAKE_TOOLCHAIN_FILE=<your mingw toolchain>
     cmake --build build
+
+To work on the mod without restarting the game, turn on the platform's hot reload (`fh3-mods\platform.ini` `[dev] HotReload=1`) and press **F9** after a
+build: the mod exports `fh3mod_shutdown` (see the platform's `docs/writing-a-mod.md`).
 
 The icon is `icons/launchcontrol.png`; `python3 scripts/gen_icons.py --prefix launchcontrol` turns it into `src/icon_data.h`.
 

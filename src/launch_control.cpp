@@ -55,6 +55,8 @@ const FH3ModApi* g_api = nullptr;
 FH3Mod* g_mod          = nullptr;
 int g_handle           = -1;
 char* g_game           = nullptr;
+std::atomic<bool> g_stop{false};   // fh3mod_shutdown (hot reload, platform API 16): the mod's threads and hooks stand down
+HANDLE g_threads[2]    = {};
 
 // fh3-mods\LaunchControl.ini (written with these defaults on first start).
 int g_default_rpm   = 3500;    // for a car whose slider was never touched
@@ -182,6 +184,7 @@ DWORD WINAPI input_thread(LPVOID) {
     if (!get) say("XInput couldn't be loaded: only the keyboard can drive launch control");
     for (;;) {
         Sleep(8);
+        if (g_stop.load()) return 0;
         int rt = 0;
         bool hand = false;
         if (game_in_front()) {
@@ -488,7 +491,7 @@ uint64_t detour_car_update(void* self, float dt) {
     const uint64_t r = g_orig_car_update(self, dt);
     char* car        = static_cast<char*>(self);
     void* hud        = g_hud_player.load();
-    if (!car || !hud) return r;
+    if (!car || !hud || g_stop.load()) return r;
     __try {
         void* iface = *reinterpret_cast<void**>(car + kOffIface);
         if (static_cast<void*>(car) == hud || (iface && iface == hud)) step(car);
@@ -590,9 +593,9 @@ FH3MOD_EXPORT int fh3mod_init(const FH3ModApi* api) {
     info.size             = sizeof info;
     info.name             = "Launch Control";
     info.version          = LAUNCHCONTROL_VERSION;
-    info.github_repo      = nullptr;
+    info.github_repo      = "Levilente/FH3_LaunchControl";
     info.platform_version = FH3MOD_PLATFORM_VERSION;
-    info.check_updates    = 0;
+    info.check_updates    = 1;
     info.description      = "2-step launch control: hold the engine at a set RPM in first gear with the handbrake and full throttle.";
     info.offline_only     = 1;
     g_mod                 = api->register_mod(&info);
@@ -624,7 +627,25 @@ FH3MOD_EXPORT int fh3mod_init(const FH3ModApi* api) {
         say("this platform (API %u) can't add the tuning slider (needs API 13); the 2-step RPM stays at %d", api->api_version, g_default_rpm);
     }
 
-    if (HANDLE t = CreateThread(nullptr, 0, install_hooks, nullptr, 0, nullptr)) CloseHandle(t);
-    if (HANDLE t = CreateThread(nullptr, 0, input_thread, nullptr, 0, nullptr)) CloseHandle(t);
+    g_threads[0] = CreateThread(nullptr, 0, install_hooks, nullptr, 0, nullptr);
+    g_threads[1] = CreateThread(nullptr, 0, input_thread, nullptr, 0, nullptr);
     return 0;
+}
+
+// Hot reload (platform API 16, see the platform's docs/writing-a-mod.md): called before a rebuilt launchcontrol.dll replaces this one.
+// Stops the threads, lets go of the car, and puts back what the mod changed in it; the platform then switches the hooks off.
+FH3MOD_EXPORT void fh3mod_shutdown(void) {
+    g_stop.store(true);
+    for (HANDLE& h : g_threads)
+        if (h) {
+            WaitForSingleObject(h, 3000);
+            CloseHandle(h);
+            h = nullptr;
+        }
+    g_lc_on.store(false);
+    g_active = false;
+    if (g_limit_iface) {   // method 1 lowered the engine's own speed limit
+        __try { *reinterpret_cast<float*>(g_limit_iface - kIfaceToDyn + kDynEngMax) = g_orig_max; } __except (EXCEPTION_EXECUTE_HANDLER) {}
+        g_limit_iface = nullptr;
+    }
 }
