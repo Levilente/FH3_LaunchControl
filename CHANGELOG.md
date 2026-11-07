@@ -1,0 +1,10 @@
+# Changelog
+
+## 1.0.0
+
+First release of **2-Step Launch Control for Forza Horizon 3**, on the [FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform).
+
+- **Garage > Upgrades > Engine > 2-Step Launch Control** (Stock / 2-Step, 4 000 CR), stored per owned car, with its own icon.
+- In first gear, standing still, hold the handbrake and full throttle: the engine is held at the set RPM by a real throttle cut (a fuel-cut limiter: the throttle is closed for at least 10 ms each time the engine reaches the limit).
+- Let go of the handbrake and the clutch is dumped at once, so the car launches from the set RPM instead of the game slowly feathering the clutch.
+- **Tuning > Springs > Launch Control > 2-Step RPM**: 1000 to 8000 RPM per car, in 100 RPM steps (3500 by default).
