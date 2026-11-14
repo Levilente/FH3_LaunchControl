@@ -4,7 +4,7 @@ A 2-step launch control for **Forza Horizon 3** (the Xbox One build on PC, throu
 **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)**. Buy it in the garage, set the launch RPM in the tuning menu, then
 launch with the handbrake and the throttle held.
 
-> Version **1.1.0**. Needs the FH3 Mod Platform **1.4.2** or newer.
+> Version **1.2.0**. Needs the FH3 Mod Platform **1.4.2** or newer.
 
 ## What it does
 
@@ -16,6 +16,8 @@ launch with the handbrake and the throttle held.
 - **A real limiter.** The engine is held by cutting the throttle inside the game's physics (a fuel-cut limiter: when the engine reaches the set RPM the
   throttle is closed for 10 ms, again and again), not by capping the tachometer.
 - **Clutch dump.** When you let go of the handbrake the clutch is closed at once, instead of the game's slow clutch feathering.
+
+- **For other mods.** It publishes the interface `LaunchControl.State` (version 1: `has_kit`, `is_active`), which the FH6 Speedometer mod uses for the LC light on the HUD: shown when the car has the kit, lit while the 2-step holds the engine.
 
 ## Requirements
 
