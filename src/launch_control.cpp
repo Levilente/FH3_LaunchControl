@@ -1,6 +1,6 @@
 // 2-Step Launch Control for Forza Horizon 3 (FH3 Mod Platform mod).
 //
-// Garage > Upgrades > Engine > "2-Step Launch Control" (Stock / 2-Step). A car with it gets a row on its Tuning > Springs
+// Garage > Upgrades > Engine > "2-Step Launch Control" (Stock / 2-Step). A car with it gets a row on its Tuning > Engine
 // page ("Launch Control | 2-Step RPM", 1000 to 8000, default 3500). Launch control is only active when ALL of these hold:
 //   - the car is in first gear and standing still,
 //   - the handbrake is held, and the throttle is (nearly) fully pressed.
@@ -566,7 +566,7 @@ int add_upgrade() {
     static const wchar_t* names[2] = {L"Stock", L"2-Step Launch Control"};
     static const wchar_t* descs[2] = {L"No launch control.",
                                       L"Hold the engine at a set RPM for a perfect start: in first gear, standing still, hold the handbrake and full throttle, "
-                                      L"then let go of the handbrake. Set the RPM (1000 to 8000, 3500 by default) on the car's Tuning, Springs page, in the Launch Control row."};
+                                      L"then let go of the handbrake. Set the RPM (1000 to 8000, 3500 by default) on the car's Tuning, Engine tab, in the Launch Control row."};
     static FH3UpgradeStage stages[2];
     for (int i = 0; i < 2; ++i) stages[i] = {names[i], descs[i], i ? g_price : 0, i && !g_icon_path.empty() ? g_icon_path.c_str() : nullptr, i && !g_icon_path.empty() ? kLargeIcon : nullptr};
     FH3UpgradeDef d{};

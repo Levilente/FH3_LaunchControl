@@ -4,12 +4,12 @@ A 2-step launch control for **Forza Horizon 3** (the Xbox One build on PC, throu
 **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)**. Buy it in the garage, set the launch RPM in the tuning menu, then
 launch with the handbrake and the throttle held.
 
-> Version **1.0.1**. Needs the FH3 Mod Platform **1.2.0** or newer.
+> Version **1.1.0**. Needs the FH3 Mod Platform **1.4.2** or newer.
 
 ## What it does
 
 - **An upgrade you buy.** **Garage > Upgrades > Engine > 2-Step Launch Control**: *Stock* or *2-Step* (4 000 CR by default). It is stored per owned car.
-- **Set the launch RPM per car.** The car's **Tuning > Springs** page gets a **Launch Control** row: **2-Step RPM**, 1000 to 8000 RPM in 100 RPM steps
+- **Set the launch RPM per car.** The car's **Tuning > Engine** tab gets a **Launch Control** row: **2-Step RPM**, 1000 to 8000 RPM in 100 RPM steps
   (3500 by default). The row is only there on cars that have the upgrade.
 - **How to launch.** In **first gear**, **standing still**, hold the **handbrake** and **full throttle** at the same time. The engine climbs to the set
   RPM and stays there. Let go of the handbrake and the car launches from that RPM.
@@ -22,7 +22,7 @@ launch with the handbrake and the throttle held.
 | What | Version |
 |---|---|
 | Forza Horizon 3 on PC with the **Azimuth** launcher | Xbox One build 1.0.125.0 (the one the platform targets) |
-| **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)** | **1.2.0 or newer** |
+| **[FH3 Mod Platform](https://github.com/Levilente/FH3_ModPlatform)** | **1.4.2 or newer** |
 | Input | Right trigger + handbrake (**A** or **B** on a controller, **Space** on a keyboard; **W** / **Up** count as full throttle). No wheel support. |
 
 ## Install

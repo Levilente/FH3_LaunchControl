@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0
+
+- The **2-Step RPM** row moved to the new **ENGINE** tab of Tune Car (after Differential), next to the other engine settings, instead of the end of Springs.
+- Needs FH3 Mod Platform **1.4.2** or newer (API 17; the ENGINE tab).
+
 ## 1.0.1
 
 - The platform's update check now knows this mod's repository: MODS > Updates and the start-up notice tell when a newer release is out.
