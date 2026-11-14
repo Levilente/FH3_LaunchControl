@@ -622,6 +622,7 @@ FH3MOD_EXPORT int fh3mod_init(const FH3ModApi* api) {
         row.set      = row_set;
         row.visible  = row_visible;
         row.user     = nullptr;
+        row.page     = "Engine";   // API 17: the ENGINE tab (older platforms: Springs)
         say("tuning row: %s", api->add_tuning_row(g_mod, &row) ? "added" : "NOT added (see the platform's lines above)");
     } else {
         say("this platform (API %u) can't add the tuning slider (needs API 13); the 2-step RPM stays at %d", api->api_version, g_default_rpm);
