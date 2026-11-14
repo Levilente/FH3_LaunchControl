@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+- Offers its state to other mods as the interface `LaunchControl.State` (version 1: `has_kit`, `is_active`), so the FH6 Speedometer mod can show the LC light on the HUD: shown when the car has the kit, lit while the 2-step holds the engine.
+
 ## 1.1.0
 
 - The **2-Step RPM** row moved to the new **ENGINE** tab of Tune Car (after Differential), next to the other engine settings, instead of the end of Springs.

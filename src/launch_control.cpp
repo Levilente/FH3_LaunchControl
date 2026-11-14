@@ -484,6 +484,16 @@ void step(char* car) {
     apply_limit(iface, active, rpm_for(garage));
 }
 
+// ---- interface for other mods ("LaunchControl.State", version 1) -------------------------------------------------------------------
+struct LaunchControlState {
+    uint32_t size;
+    int (*has_kit)(void);     // 1 when the car being driven has the 2-Step Launch Control upgrade
+    int (*is_active)(void);   // 1 while the 2-step holds the engine (first gear, standing still, handbrake + full throttle)
+};
+int lc_has_kit() { return car_has_kit() ? 1 : 0; }
+int lc_is_active() { return g_active ? 1 : 0; }
+const LaunchControlState k_state_iface = {sizeof(LaunchControlState), lc_has_kit, lc_is_active};
+
 // ---- hooks -----------------------------------------------------------------------------------------------------------------------
 typedef uint64_t (*CarUpdateFn)(void*, float);
 CarUpdateFn g_orig_car_update = nullptr;
@@ -627,6 +637,10 @@ FH3MOD_EXPORT int fh3mod_init(const FH3ModApi* api) {
     } else {
         say("this platform (API %u) can't add the tuning slider (needs API 13); the 2-step RPM stays at %d", api->api_version, g_default_rpm);
     }
+
+    // For other mods (FH6 Speedometer: the LC light on the HUD): whether the car being driven has the kit, and whether the
+    // 2-step is holding the engine right now. Version 1; members are only ever added at the end.
+    if (api->api_version >= 2 && api->publish_interface) api->publish_interface(g_mod, "LaunchControl.State", 1, &k_state_iface);
 
     g_threads[0] = CreateThread(nullptr, 0, install_hooks, nullptr, 0, nullptr);
     g_threads[1] = CreateThread(nullptr, 0, input_thread, nullptr, 0, nullptr);
